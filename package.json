@@ -1,0 +1,16 @@
+{
+  "name": "devflow",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DevFlow - collaborative project management platform (Stage 1 foundation)",
+  "scripts": {
+    "install:all": "npm install --prefix client && npm install --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "start:server": "npm run start --prefix server",
+    "build": "npm run build --prefix client"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}
