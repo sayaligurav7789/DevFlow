@@ -1,0 +1,136 @@
+# DevFlow local stack.
+#
+#   docker compose --env-file server/.env up -d                       PostgreSQL + Redis only (default)
+#   docker compose --env-file server/.env --profile app up -d --build  ... plus migrations and the API
+#
+# Credentials come from server/.env (never committed). Stop with `down`; do NOT add `-v`, which
+# deletes the database volume.
+
+# Shared by the one-shot migration job and the API so both run exactly the same image and settings.
+x-server-image: &server-image
+  image: devflow-server:local
+  build:
+    context: ./server
+    dockerfile: Dockerfile
+
+x-server-environment: &server-environment
+  # DEVFLOW_APP_ENV=development gives non-Secure cookies, dev invitation links and detailed errors.
+  NODE_ENV: ${DEVFLOW_APP_ENV:-production}
+  PORT: "5000"
+  CLIENT_ORIGIN: ${CLIENT_ORIGIN:-http://localhost:5173}
+  API_ORIGIN: ${API_ORIGIN:-http://localhost:5000}
+  INTEGRATIONS_ENCRYPTION_KEY: ${INTEGRATIONS_ENCRYPTION_KEY:-}
+  GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-}
+  GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET:-}
+  SLACK_CLIENT_ID: ${SLACK_CLIENT_ID:-}
+  SLACK_CLIENT_SECRET: ${SLACK_CLIENT_SECRET:-}
+  GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+  GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+  # Empty here is caught by the API's own startup check (>= 32 bytes), so DB-only use keeps working.
+  SESSION_SECRET: ${SESSION_SECRET:-}
+  # Inside the Compose network the services are reached by name, on their internal ports.
+  DEVFLOW_DB_HOST: postgres
+  DEVFLOW_DB_PORT: "5432"
+  DEVFLOW_DB_NAME: ${DEVFLOW_DB_NAME:?Set DEVFLOW_DB_NAME in server/.env}
+  DEVFLOW_DB_USER: ${DEVFLOW_DB_USER:?Set DEVFLOW_DB_USER in server/.env}
+  DEVFLOW_DB_PASSWORD: ${DEVFLOW_DB_PASSWORD:?Set DEVFLOW_DB_PASSWORD in server/.env}
+  DEVFLOW_REDIS_HOST: redis
+  DEVFLOW_REDIS_PORT: "6379"
+  DEVFLOW_REDIS_PASSWORD: ${DEVFLOW_REDIS_PASSWORD:-}
+  DEVFLOW_TRUST_PROXY: ${DEVFLOW_TRUST_PROXY:-0}
+
+x-hardened: &hardened
+  read_only: true
+  tmpfs:
+    - /tmp
+  cap_drop:
+    - ALL
+  security_opt:
+    - no-new-privileges:true
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DEVFLOW_DB_NAME:?Set DEVFLOW_DB_NAME in server/.env}
+      POSTGRES_USER: ${DEVFLOW_DB_USER:?Set DEVFLOW_DB_USER in server/.env}
+      POSTGRES_PASSWORD: ${DEVFLOW_DB_PASSWORD:?Set DEVFLOW_DB_PASSWORD in server/.env}
+    ports:
+      - "127.0.0.1:${DEVFLOW_DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - backend
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "127.0.0.1:${DEVFLOW_REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - backend
+
+  # One-shot job: applies pending SQL migrations (idempotent, advisory-locked, never drops data),
+  # then exits. The API only starts after it completes successfully.
+  migrate:
+    <<: [*server-image, *hardened]
+    profiles: ["app"]
+    command: ["node", "src/db/migrate.js"]
+    environment: *server-environment
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - backend
+
+  backend:
+    <<: [*server-image, *hardened]
+    profiles: ["app"]
+    init: true
+    restart: unless-stopped
+    environment: *server-environment
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      # Loopback only: the local React dev server proxies to this. Put a TLS reverse proxy in front
+      # for anything beyond your own machine.
+      - "127.0.0.1:${DEVFLOW_API_PORT:-5000}:5000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:5000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 4s
+      retries: 5
+      start_period: 20s
+    networks:
+      - backend
+
+networks:
+  # Services reach each other by name on this network; only the loopback-bound ports above are
+  # visible from the host.
+  backend:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
