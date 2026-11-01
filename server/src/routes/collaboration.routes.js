@@ -1,0 +1,20 @@
+import { Router } from 'express';
+import { requireAuth } from '../middleware/requireAuth.js';
+import { requireWorkspaceAccess } from '../middleware/requireWorkspaceAccess.js';
+import { listDocuments, uploadDocument, downloadDocument, deleteDocument } from '../controllers/documents.controller.js';
+import { listDiscussions, createDiscussion, listReplies, createReply, toggleReaction, deleteDiscussion } from '../controllers/discussions.controller.js';
+
+const router = Router();
+router.use(requireAuth);
+router.use('/:workspaceId', requireWorkspaceAccess);
+router.get('/:workspaceId/documents', listDocuments);
+router.post('/:workspaceId/documents', uploadDocument);
+router.get('/:workspaceId/documents/:documentId/download', downloadDocument);
+router.delete('/:workspaceId/documents/:documentId', deleteDocument);
+router.get('/:workspaceId/discussions', listDiscussions);
+router.post('/:workspaceId/discussions', createDiscussion);
+router.get('/:workspaceId/discussions/:discussionId/replies', listReplies);
+router.post('/:workspaceId/discussions/:discussionId/replies', createReply);
+router.post('/:workspaceId/discussions/:discussionId/reactions', toggleReaction);
+router.delete('/:workspaceId/discussions/:discussionId', deleteDiscussion);
+export default router;
