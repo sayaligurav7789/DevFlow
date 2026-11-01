@@ -1,6 +1,6 @@
-# DevFlow 🚀
+# DevFlow⚡
 
-### Plan smarter. Collaborate better. Build faster.
+> ### Plan smarter. Collaborate better. Build faster.
 
 **DevFlow** is a full-stack collaborative project management platform designed to simplify project planning, task tracking, team collaboration, and workflow management. It provides a centralized workspace where teams can manage projects, organize tasks, monitor progress, collaborate with members, and access intelligent AI-powered assistance.
 
@@ -36,9 +36,6 @@ Built using **React, Vite, Node.js, Express.js, PostgreSQL, Redis, Docker, and G
 - [Security Considerations](#-security-considerations)
 - [Known Limitations](#-known-limitations)
 - [Deployment](#-deployment)
-- [Future Enhancements](#-future-enhancements)
-- [Contributing](#-contributing)
-- [License](#-license)
 
 ---
 
@@ -97,6 +94,10 @@ The platform is designed with modular architecture, secure API communication, wo
 - Remark GFM
 - @dnd-kit for drag-and-drop interactions
 
+<p align="left">
+  <img src="https://skillicons.dev/icons?i=react,vite,js,tailwind" />
+</p>
+
 ### Backend
 
 - Node.js
@@ -107,12 +108,20 @@ The platform is designed with modular architecture, secure API communication, wo
 - Nodemailer
 - Direct PostgreSQL access using `pg`
 
+<p align="left">
+  <img src="https://skillicons.dev/icons?i=nodejs,express,js" />
+</p>
+
 ### Database and Caching
 
 - PostgreSQL 16
 - Redis 7
 - SQL migrations
 - JSONB for AI document embeddings
+
+<p align="left">
+  <img src="https://skillicons.dev/icons?i=postgres,redis" />
+</p>
 
 ### Artificial Intelligence
 
@@ -124,11 +133,21 @@ The platform is designed with modular architecture, secure API communication, wo
 - Cosine similarity
 - Semantic document retrieval
 
+<p align="left">
+  <img src="https://skillicons.dev/icons?i=googleai,python" />
+</p>
+
 ### Document Processing
 
 - PDF.js — PDF text extraction
 - Mammoth — DOCX text extraction
 - Native Node.js text processing — TXT and Markdown
+
+<p align="left">
+  <img src="https://img.shields.io/badge/PDF.js-CC0000?style=for-the-badge&logo=adobeacrobatreader&logoColor=white" />
+  <img src="https://img.shields.io/badge/DOCX-Mammoth-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white" />
+</p>
 
 ### DevOps and Developer Tools
 
@@ -139,6 +158,9 @@ The platform is designed with modular architecture, secure API communication, wo
 - Postman
 - Visual Studio Code
 
+<p align="left">
+  <img src="https://skillicons.dev/icons?i=git,github,docker,vscode,postman,npm" />
+</p>
 ---
 
 ## 🏗️ System Architecture
