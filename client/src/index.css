@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+/* Theme tokens. Components use semantic utilities (bg-canvas, text-fg, border-line, ...) so
+   light and dark share one set of classes. */
+:root, :root[data-theme='light'] {
+  color-scheme: light;
+  --canvas: #ffffff;
+  --sidebar: #f7f7f8;
+  --panel: #ffffff;
+  --raised: #fbfbfc;
+  --hover: #f1f1f3;
+  --active: #e9e9ed;
+  --line: #e6e6ea;
+  --line-strong: #d4d4da;
+  --fg: #1c1d21;
+  --muted: #565a63;
+  --faint: #6a6e77;
+  --accent: #4b57c4;
+  --accent-hover: #3f4bb5;
+  --accent-soft: #eef0fc;
+  --accent-fg: #ffffff;
+  --danger: #c4332b;
+  --danger-soft: #fdeceb;
+  --success: #1f7a4d;
+  --success-soft: #e8f6ee;
+  --warning: #96600a;
+  --warning-soft: #fdf3dd;
+  --overlay: rgb(15 16 20 / .45);
+  --shadow-pop: 0 8px 28px -6px rgb(16 17 26 / .18), 0 0 0 1px rgb(16 17 26 / .06);
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --canvas: #0f1011;
+  --sidebar: #131415;
+  --panel: #17181a;
+  --raised: #1b1c1f;
+  --hover: #202124;
+  --active: #28292d;
+  --line: #26272b;
+  --line-strong: #34353a;
+  --fg: #ececee;
+  --muted: #a0a3ab;
+  --faint: #8b8e97;
+  --accent: #7b85e6;
+  --accent-hover: #8d96ee;
+  --accent-soft: #1f2140;
+  --accent-fg: #0f1011;
+  --danger: #f0716a;
+  --danger-soft: #2e1a1a;
+  --success: #52c58b;
+  --success-soft: #14261d;
+  --warning: #e0a94a;
+  --warning-soft: #2b2212;
+  --overlay: rgb(0 0 0 / .62);
+  --shadow-pop: 0 10px 32px -6px rgb(0 0 0 / .6), 0 0 0 1px rgb(255 255 255 / .06);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-sidebar: var(--sidebar);
+  --color-panel: var(--panel);
+  --color-raised: var(--raised);
+  --color-hover: var(--hover);
+  --color-active: var(--active);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-fg: var(--accent-fg);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --shadow-pop: var(--shadow-pop);
+}
+
+/* Base rules live in @layer base so Tailwind utilities (text-danger, bg-accent, ...) always win.
+   Tailwind's preflight already resets button/input font and color. */
+@layer base {
+  html { background: var(--canvas); color: var(--fg); font-family: var(--font-sans); font-size: 14px; }
+  body { margin: 0; min-width: 320px; min-height: 100dvh; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; font-feature-settings: 'cv11', 'ss01'; }
+  button:not(:disabled) { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  ::selection { background: var(--accent-soft); color: var(--fg); }
+}
+
+/* One focus treatment everywhere; keyboard focus only. */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-radius: 6px; }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline-offset: 0; }
+
+/* Thin, quiet scrollbars */
+* { scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop-in { from { opacity: 0; transform: translateY(4px) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes slide-in-left { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.anim-fade { animation: fade-in .14s ease-out both; }
+.anim-pop { animation: pop-in .16s cubic-bezier(.2,.8,.3,1) both; }
+.anim-drawer { animation: slide-in-left .2s cubic-bezier(.2,.8,.3,1) both; }
+.anim-toast { animation: toast-in .18s ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
