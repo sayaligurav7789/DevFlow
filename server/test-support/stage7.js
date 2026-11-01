@@ -51,10 +51,11 @@ export function trackUser(id) {
 }
 
 export async function createTestUser(label) {
+  const normalizedLabel = String(label).trim().toLowerCase();
   const inserted = await pool.query(
     `INSERT INTO users (email, display_name) VALUES ($1, $2)
      RETURNING id::TEXT AS id, email, display_name AS "displayName"`,
-    [`${label}-${randomBytes(3).toString('hex')}-${runId}@example.test`, `S7 ${label}`],
+    [`${normalizedLabel}-${randomBytes(3).toString('hex')}-${runId}@example.test`, `S7 ${label}`],
   );
   const user = inserted.rows[0];
   const token = randomBytes(32).toString('base64url');
