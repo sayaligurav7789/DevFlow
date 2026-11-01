@@ -1,0 +1,15 @@
+{
+  "name": "devflow-e2e",
+  "private": true,
+  "type": "module",
+  "description": "Headless-Chrome UI flows and axe-core audit for DevFlow (kept separate from client/ and server/).",
+  "scripts": {
+    "e2e": "node run.mjs",
+    "axe": "node axe.mjs",
+    "stage7": "node stage7.mjs"
+  },
+  "dependencies": {
+    "puppeteer-core": "^25.14.0",
+    "axe-core": "^4.14.0"
+  }
+}
