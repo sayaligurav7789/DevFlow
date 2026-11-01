@@ -1,0 +1,788 @@
+/* =========================================
+   INTEGRATIONS PAGE
+   Uses global theme tokens from index.css
+========================================= */
+
+.integrations-page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px;
+  color: var(--fg);
+  background: var(--canvas);
+}
+
+/* Header */
+
+.integrations-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.integrations-page-header h1 {
+  margin: 10px 0 5px;
+  font-size: 26px;
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+}
+
+.integrations-page-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Breadcrumb */
+
+.integrations-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--faint);
+  font-size: 11px;
+}
+
+.integrations-breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.integrations-breadcrumb a:hover {
+  color: var(--fg);
+}
+
+.integrations-breadcrumb svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Information callout */
+
+.integrations-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 13px 15px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--accent-soft);
+  margin-bottom: 22px;
+  color: var(--muted);
+}
+
+.integrations-callout svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--accent);
+}
+
+.integrations-callout p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+/* Integration layout */
+
+.integrations-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+/* Cards */
+
+.integration-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--fg);
+  overflow: hidden;
+}
+
+.integration-card-heading {
+  display: flex;
+  gap: 13px;
+  padding: 18px 18px 15px;
+}
+
+.integration-logo {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 42px;
+  border-radius: 11px;
+  background: var(--raised);
+  border: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--fg);
+}
+
+.integration-logo-slack {
+  color: #611f69;
+}
+
+.integration-logo-github-actions {
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.integration-card-heading-text {
+  min-width: 0;
+}
+
+.integration-card-heading h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.integration-card-heading p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.integration-card-body {
+  padding: 0 18px 18px;
+}
+
+/* Status */
+
+.integration-card-status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.integration-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border-radius: 99px;
+  background: var(--raised);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.integration-status.is-connected {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.integration-status.is-pending {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.integration-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.integration-account {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.integration-account strong {
+  color: var(--fg);
+}
+
+/* Buttons */
+
+.integration-primary-button,
+.integration-secondary-button,
+.integration-danger-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 650;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s,
+    color 0.15s, filter 0.15s;
+}
+
+.integration-primary-button {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  color: var(--accent-fg);
+}
+
+.integration-primary-button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.integration-primary-button:disabled,
+.integration-secondary-button:disabled,
+.integration-danger-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.integration-primary-button svg,
+.integration-secondary-button svg {
+  width: 13px;
+  height: 13px;
+}
+
+.integration-secondary-button {
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  color: var(--fg);
+}
+
+.integration-secondary-button:hover:not(:disabled) {
+  background: var(--hover);
+}
+
+.integration-danger-button {
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.integration-danger-button:hover:not(:disabled) {
+  background: var(--danger-soft);
+}
+
+.integration-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Configuration panel */
+
+.integration-config-panel {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--raised);
+}
+
+.integration-config-panel > label,
+.integration-linked-list > label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.integration-config-panel select,
+.integration-linked-list select {
+  width: 100%;
+  min-height: 35px;
+  padding: 0 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--fg);
+  font: inherit;
+  font-size: 12px;
+}
+
+.integration-config-panel select:focus,
+.integration-linked-list select:focus {
+  border-color: var(--accent);
+  outline-color: var(--accent);
+}
+
+/* Slack event options */
+
+.integration-event-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.integration-event-options legend {
+  margin-bottom: 9px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.integration-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.integration-checkbox input {
+  accent-color: var(--accent);
+}
+
+/* Linked repositories */
+
+.integration-linked-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.integration-linked-list h3 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.integration-linked-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+}
+
+.integration-linked-row > svg {
+  width: 15px;
+  height: 15px;
+}
+
+.integration-linked-row span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.integration-linked-row strong {
+  font-size: 11px;
+  color: var(--fg);
+}
+
+.integration-linked-row small {
+  font-size: 10px;
+  color: var(--faint);
+}
+
+.integration-muted {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* Full-width cards */
+
+.integration-card-wide,
+.integration-activity-card {
+  grid-column: 1 / -1;
+}
+
+/* GitHub Actions */
+
+.integration-workflows {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+.integration-workflow-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 2px;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: inherit;
+}
+
+.workflow-indicator {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: var(--faint);
+}
+
+.workflow-indicator.success {
+  background: var(--success);
+}
+
+.workflow-indicator.failure {
+  background: var(--danger);
+}
+
+.workflow-indicator.running {
+  background: var(--warning);
+}
+
+.workflow-main {
+  display: grid;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.workflow-main strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  color: var(--fg);
+}
+
+.workflow-main small,
+.workflow-result {
+  font-size: 10px;
+  color: var(--faint);
+}
+
+.workflow-result {
+  text-transform: capitalize;
+}
+
+.integration-workflow-row > svg {
+  width: 13px;
+  height: 13px;
+  color: var(--faint);
+}
+
+/* GitHub Activity Dashboard */
+
+.integration-activity-card {
+  grid-column: 1 / -1;
+  padding: 22px;
+  background: var(--panel);
+}
+
+.integration-activity-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.integration-activity-header h2 {
+  margin: 4px 0 5px;
+  color: var(--fg);
+  font-size: 17px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.integration-activity-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.integration-section-eyebrow {
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.integration-activity-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  background: var(--raised);
+  color: var(--success);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.integration-activity-live span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Activity statistics */
+
+.integration-activity-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.integration-activity-stat {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 14px 15px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--raised);
+}
+
+.integration-activity-stat-label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.integration-activity-stat strong {
+  color: var(--fg);
+  font-size: 25px;
+  line-height: 1.1;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+.integration-activity-stat small {
+  color: var(--faint);
+  font-size: 10px;
+}
+
+/* Activity columns */
+
+.integration-activity-columns {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1fr;
+  gap: 13px;
+  align-items: stretch;
+}
+
+.integration-activity-group {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--raised);
+}
+
+.integration-activity-group-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.integration-activity-group-heading h3 {
+  margin: 0;
+  color: var(--fg);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.integration-activity-group-heading > span {
+  display: inline-grid;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  place-items: center;
+  border-radius: 99px;
+  background: var(--active);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.integration-activity-list {
+  display: grid;
+}
+
+.integration-activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  min-width: 0;
+  padding: 11px 0;
+  border-top: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.integration-activity-marker {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.integration-activity-marker.pull {
+  background: var(--success);
+}
+
+.integration-activity-marker.issue {
+  background: var(--warning);
+}
+
+.integration-activity-item-content {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  flex: 1;
+}
+
+.integration-activity-item-content strong {
+  color: var(--fg);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.integration-activity-item-content small {
+  color: var(--faint);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.integration-activity-item:hover
+.integration-activity-item-content strong {
+  color: var(--accent);
+}
+
+.integration-activity-arrow {
+  flex: 0 0 auto;
+  color: var(--faint);
+  font-size: 13px;
+}
+
+.integration-activity-empty {
+  padding: 18px 10px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.integration-activity-empty strong {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.integration-activity-empty p {
+  margin: 5px 0 0;
+  color: var(--faint);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* Brand icons */
+
+.integration-logo-github svg {
+  width: 25px;
+  height: 25px;
+  color: var(--fg);
+  display: block;
+}
+
+.integration-logo-slack svg {
+  width: 27px;
+  height: 27px;
+  display: block;
+}
+
+.integration-logo-github-actions .integration-ci-icon {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* Responsive */
+
+@media (max-width: 980px) {
+  .integration-activity-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .integration-activity-group:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .integrations-page {
+    padding: 20px 16px;
+  }
+
+  .integrations-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .integration-card-wide,
+  .integration-activity-card {
+    grid-column: auto;
+  }
+
+  .integration-activity-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .integrations-page-header {
+    align-items: flex-start;
+  }
+
+  .integration-event-options {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .integration-activity-group:first-child {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .integration-activity-card {
+    padding: 16px;
+  }
+
+  .integration-activity-header {
+    flex-direction: column;
+  }
+
+  .integration-activity-stats {
+    gap: 8px;
+  }
+
+  .integration-activity-stat {
+    padding: 11px;
+  }
+
+  .integration-activity-stat strong {
+    font-size: 21px;
+  }
+}
