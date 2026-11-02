@@ -28,7 +28,7 @@ export function createApp() {
   if (config.trustProxy > 0) app.set('trust proxy', config.trustProxy);
   app.use(securityHeaders);
   app.use(cors({ origin: config.clientOrigin, credentials: true }));
-  app.use(express.json({ limit: '8mb' }));
+  app.use(express.json({ limit: '100kb' }));
   app.use('/api', csrfProtection);
 
   if (config.nodeEnv !== 'test') {

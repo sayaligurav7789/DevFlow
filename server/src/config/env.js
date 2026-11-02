@@ -4,8 +4,12 @@ import dotenv from 'dotenv';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Load server/.env regardless of the directory the process was started from.
-dotenv.config({ path: path.resolve(__dirname, '../../.env'), quiet: true });
+// Load server/.env in local development and tests regardless of the working directory.
+// Production must use explicitly injected environment variables; silently loading a local
+// .env file can mask missing deployment configuration and make startup validation unreliable.
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: path.resolve(__dirname, '../../.env'), quiet: true });
+}
 
 function parsePort(value, fallback) {
   const port = Number.parseInt(value ?? '', 10);

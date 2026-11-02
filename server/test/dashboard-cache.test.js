@@ -2,7 +2,7 @@
 // and Redis failure. Requires PostgreSQL (DEVFLOW_DB_NAME must end in _test), like the other
 // integration tests; Redis is replaced by an in-memory double.
 import assert from 'node:assert/strict';
-import test, { after } from 'node:test';
+import test, { after, beforeEach } from 'node:test';
 import {
   createProject, createTask, createTestUser, createWorkspace, ctx, moveTask, request, setupHarness,
 } from '../test-support/stage7.js';
@@ -11,6 +11,11 @@ import { FakeRedis } from '../test-support/fakeRedis.js';
 // Loaded after the harness so SESSION_SECRET is already set when config is evaluated.
 const redisLib = await import('../src/lib/redis.js');
 const fake = new FakeRedis();
+
+beforeEach(() => {
+  fake.clear();
+  redisLib.resetRedisBreakerForTests();
+});
 
 let wsB;
 let ownerB;

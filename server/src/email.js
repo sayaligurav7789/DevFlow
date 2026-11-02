@@ -10,6 +10,10 @@ const smtp = {
 };
 
 export function isEmailConfigured() {
+  // Never send real email from automated tests. Invitation tests rely on the development
+  // link so they can exercise token hashing/acceptance without external SMTP side effects.
+  if (process.env.NODE_ENV === 'test') return false;
+
   return Boolean(
     smtp.host &&
     smtp.port &&

@@ -241,18 +241,32 @@ test('a database-backed session survives an Express server restart', async () =>
   assert.equal(result.data.user.email, originalEmail);
 });
 
-test('profile updates normalize email and return only public user fields', async () => {
+test('profile updates display name and rejects direct email changes', async () => {
+  // Display name update should succeed
   const result = await request('/api/auth/me', {
     method: 'PATCH',
-    body: { email: ` ${updatedEmail.toUpperCase()} `, displayName: 'Updated Tester' },
+    body: { displayName: 'Updated Tester' },
     cookies: [csrfCookie, loginSessionCookie],
   });
 
   assert.equal(result.response.status, 200);
-  assert.equal(result.data.user.email, updatedEmail);
+  assert.equal(result.data.user.email, originalEmail);
   assert.equal(result.data.user.displayName, 'Updated Tester');
   assert.equal(Object.hasOwn(result.data.user, 'password_hash'), false);
   assert.equal(Object.hasOwn(result.data, 'token'), false);
+
+  // Direct email update should be rejected
+  const emailUpdate = await request('/api/auth/me', {
+    method: 'PATCH',
+    body: { email: updatedEmail },
+    cookies: [csrfCookie, loginSessionCookie],
+  });
+
+  assert.equal(emailUpdate.response.status, 400);
+  assert.equal(
+    emailUpdate.data.error.message,
+    'Use the secure email-change flow to update your email address'
+  );
 });
 
 test('logout deletes its session and the old cookie can no longer access protected routes', async () => {

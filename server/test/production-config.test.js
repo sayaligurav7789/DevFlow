@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 process.env.NODE_ENV = 'production';
-process.env.SESSION_SECRET = 'production-test-secret-0123456789-abcdefghij';
+process.env.SESSION_SECRET = `production-test-${'x'.repeat(40)}`;
 delete process.env.CLIENT_ORIGIN;
 delete process.env.DEVFLOW_DB_PASSWORD;
 delete process.env.DEVFLOW_ALLOW_PRODUCTION_SEED;

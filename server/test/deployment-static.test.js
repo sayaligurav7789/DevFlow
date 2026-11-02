@@ -167,14 +167,17 @@ test('seed script: idempotent inserts, no credentials, refuses production', () =
 
 // ---- Secret hygiene ------------------------------------------------------------------------------------------
 
-function textFiles(directory, found = []) {
-  for (const name of readdirSync(directory)) {
-    if (['node_modules', '.git', 'dist', 'attached_assets', 'test', 'test-support', 'e2e'].includes(name)) continue;
-    const full = path.join(directory, name);
-    if (statSync(full).isDirectory()) textFiles(full, found);
-    else if (!/package-lock\.json$|\.(png|jpe?g|gif|ico|woff2?|svg|zip)$/i.test(name)) found.push(full);
-  }
-  return found;
+function textFiles() {
+  const tracked = execFileSync('git', ['ls-files', '-z'], {
+    cwd: repoRoot,
+    encoding: 'utf8',
+  });
+
+  return tracked
+    .split('\0')
+    .filter(Boolean)
+    .filter((file) => !/package-lock\.json$|\.(png|jpe?g|gif|ico|woff2?|svg|zip)$/i.test(file))
+    .map((file) => path.join(repoRoot, file));
 }
 
 test('no credentials or private keys are committed in application, config or documentation files', () => {
@@ -187,7 +190,7 @@ test('no credentials or private keys are committed in application, config or doc
     [/\bsk-[A-Za-z0-9]{32,}\b/, 'API secret key'],
   ];
   const hits = [];
-  for (const file of textFiles(repoRoot)) {
+  for (const file of textFiles()) {
     const content = readFileSync(file, 'utf8');
     for (const [pattern, label] of patterns) if (pattern.test(content)) hits.push(`${path.relative(repoRoot, file)}: ${label}`);
   }

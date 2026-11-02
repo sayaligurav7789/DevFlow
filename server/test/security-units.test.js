@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 process.env.NODE_ENV = 'test';
-process.env.SESSION_SECRET = 'unit-test-secret-unit-test-secret-0123456789';
+process.env.SESSION_SECRET = `unit-test-${'x'.repeat(40)}`;
 
 const [csrf, session, { errorHandler, statusFor }, { securityHeaders }, { productionConfigProblems }, access, pagination] = await Promise.all([
   import('../src/middleware/csrfProtection.js'),
@@ -182,9 +182,28 @@ test('API responses carry defensive headers and are never cacheable', () => {
 // ---- Production config validation ------------------------------------------------------------------
 
 test('production config validation accepts a sound config and names every problem otherwise', () => {
-  const good = { clientOrigin: 'https://app.example.com', sessionSecret: 'x'.repeat(40), database: { password: 'pw' } };
-  assert.deepEqual(productionConfigProblems(good, { CLIENT_ORIGIN: 'https://app.example.com' }), []);
-  assert.deepEqual(productionConfigProblems({ ...good, clientOrigin: 'http://localhost:5173' }, { CLIENT_ORIGIN: 'x' }), [], 'http is fine for localhost');
+  const good = {
+  clientOrigin: 'https://app.example.com',
+  apiOrigin: 'https://api.example.com',
+  sessionSecret: 'x'.repeat(40),
+  database: { password: 'pw' },
+};
+
+const validEnv = {
+  CLIENT_ORIGIN: 'https://app.example.com',
+  API_ORIGIN: 'https://api.example.com',
+};
+
+assert.deepEqual(productionConfigProblems(good, validEnv), []);
+
+assert.deepEqual(
+  productionConfigProblems(
+    { ...good, clientOrigin: 'http://localhost:5173' },
+    { ...validEnv, CLIENT_ORIGIN: 'http://localhost:5173' }
+  ),
+  [],
+  'http is fine for localhost'
+);
 
   const cases = [
     [{}, {}, /CLIENT_ORIGIN must be set/],
