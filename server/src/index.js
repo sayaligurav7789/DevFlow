@@ -9,8 +9,8 @@ import { startIntegrationOutbox, stopIntegrationOutbox } from './jobs/integratio
 const app = createApp();
 startRedis();
 
-const server = app.listen(config.port, () => {
-  logger.info(`DevFlow server listening on http://localhost:${config.port} (${config.nodeEnv})`);
+const server = app.listen(config.port, '0.0.0.0', () => {
+  logger.info(`DevFlow server listening on port ${config.port} (${config.nodeEnv})`);
 });
 
 startDeadlineScheduler();
