@@ -5,9 +5,10 @@
 
 .integrations-page {
   width: 100%;
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 28px;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   color: var(--fg);
   background: var(--canvas);
 }

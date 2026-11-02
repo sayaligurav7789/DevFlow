@@ -8,7 +8,7 @@ import { useFetch } from '../hooks/useFetch.js';
 import { workspaceApi } from '../lib/endpoints.js';
 import { ROLE_LABELS } from '../lib/constants.js';
 import { formatDate } from '../lib/format.js';
-import { Avatar, Badge, Button, Card, CardHeader, ConfirmDialog, EmptyState, ErrorState, FilterSelect, IconButton, Menu, PageHeader, SkeletonRows } from '../components/ui/index.js';
+import { Avatar, Badge, Button, Card, CardHeader, ConfirmDialog, EmptyState, ErrorState, FilterSelect, IconButton, Menu, Icon, SkeletonRows } from '../components/ui/index.js';
 import { InviteDialog } from '../components/InviteDialog.jsx';
 
 const STATUS_TONE = { pending: 'accent', accepted: 'success', revoked: 'neutral', expired: 'warning' };
@@ -70,11 +70,25 @@ export function TeamPage() {
 
   return (
     <>
-      <PageHeader
-        title="Team"
-        description={`People in ${workspace.name} and their roles.`}
-        actions={canInvite && <Button variant="primary" icon="mail" onClick={() => setInviting(true)}>Invite people</Button>}
-      />
+      <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-accent-soft text-accent">
+              <Icon name="users" className="size-5" />
+            </span>
+            <h1 className="text-xl font-semibold tracking-tight text-fg">Team</h1>
+          </div>
+          <p className="mt-2 text-sm text-muted">
+            People in {workspace.name} and their roles.
+          </p>
+        </div>
+
+        {canInvite && (
+          <Button variant="primary" icon="mail" onClick={() => setInviting(true)}>
+            Invite people
+          </Button>
+        )}
+      </header>
 
       <Card>
         <CardHeader title="Members" description={members.data ? `${list.length} ${list.length === 1 ? 'person' : 'people'}` : undefined} />

@@ -217,11 +217,27 @@ export default function IntegrationsPage() {
     <main className="integrations-page">
       <header className="integrations-page-header">
         <div>
-          <div className="integrations-breadcrumb"><Link to={`/workspaces/${workspaceId}`}>Workspace</Link><Icon name="chevronRight" /> Integrations</div>
-          <h1>Integrations</h1>
+          <div className="integrations-breadcrumb">
+            <Link to={`/workspaces/${workspaceId}`}>Workspace</Link>
+            <Icon name="chevronRight" /> Integrations
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-accent-soft text-accent">
+              <Icon name="link" className="size-5" />
+            </span>
+            <h1>Integrations</h1>
+          </div>
+
           <p>Connect your development and communication tools to your workspace.</p>
         </div>
-        <button type="button" className="integration-secondary-button" onClick={load} disabled={loading}>
+
+        <button
+          type="button"
+          className="integration-secondary-button"
+          onClick={load}
+          disabled={loading}
+        >
           <Icon name="refresh" /> Refresh
         </button>
       </header>

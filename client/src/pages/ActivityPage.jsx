@@ -4,7 +4,7 @@ import { useListParams } from '../hooks/useListParams.js';
 import { useMembers } from '../hooks/useMembers.js';
 import { workspaceApi } from '../lib/endpoints.js';
 import { ActivityFeed } from '../components/ActivityFeed.jsx';
-import { Button, Card, EmptyState, ErrorState, FilterSelect, PageHeader, Pagination, SkeletonRows } from '../components/ui/index.js';
+import { Button, Card, EmptyState, ErrorState, FilterSelect, Icon, Pagination, SkeletonRows } from '../components/ui/index.js';
 
 const DEFAULTS = { entityType: '', actorId: '', page: 1 };
 
@@ -20,7 +20,17 @@ export function ActivityPage() {
 
   return (
     <>
-      <PageHeader title="Activity" description={`Everything that changed in ${workspace.name}, newest first.`} />
+      <header className="mb-6">
+        <div className="flex items-center gap-2">
+          <span className="flex size-9 items-center justify-center rounded-xl bg-accent-soft text-accent">
+            <Icon name="clock" className="size-5" />
+          </span>
+          <h1 className="text-xl font-semibold tracking-tight text-fg">Activity</h1>
+        </div>
+        <p className="mt-2 text-sm text-muted">
+          Everything that changed in {workspace.name}, newest first.
+        </p>
+      </header>
       <Card>
         <div role="search" aria-label="Filter activity" className="flex flex-wrap items-center gap-2 border-b border-line px-3 py-2.5">
           <FilterSelect label="Filter by type" value={values.entityType} onChange={(v) => set({ entityType: v })}>

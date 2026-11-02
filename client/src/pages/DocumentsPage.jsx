@@ -161,18 +161,28 @@ export function DocumentsPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
-      <div className="flex flex-wrap items-start justify-between gap-3">
+      <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold text-fg">Documents</h1>
-          <p className="mt-1 text-sm text-muted">Shared files for {current?.name ?? 'this workspace'}.</p>
+          <div className="flex items-center gap-2">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-accent-soft text-accent">
+              <Icon name="file" className="size-5" />
+            </span>
+            <h1 className="text-xl font-semibold tracking-tight text-fg">Documents</h1>
+          </div>
+          <p className="mt-2 text-sm text-muted">
+            Shared files for {current?.name ?? 'this workspace'}.
+          </p>
         </div>
+
         <div className="flex gap-2">
           <input ref={inputRef} type="file" accept={ACCEPT} className="hidden" onChange={(e) => upload(e.target.files?.[0])} />
           <Button onClick={() => inputRef.current?.click()} loading={busy}>
-            <span className="inline-flex items-center gap-2"><Icon name="plus" />Upload document</span>
+            <span className="inline-flex items-center gap-2">
+              <Icon name="plus" />Upload document
+            </span>
           </Button>
         </div>
-      </div>
+      </header>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-xs text-muted">PDF, text, Markdown, images, DOCX, XLSX and PPTX · Maximum 5 MB per file.</p>

@@ -175,7 +175,7 @@ export function DiscussionsPage() {
   const unansweredCount = items.filter((item) => (item.replyCount ?? 0) === 0).length;
 
   return (
-    <div className="mx-auto max-w-5xl space-y-6 pb-10">
+    <div className="mx-auto w-full max-w-[1100px] mx-auto space-y-6 pb-10">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="flex items-center gap-2">

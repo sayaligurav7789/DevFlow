@@ -5,7 +5,7 @@ import { useFetch } from '../hooks/useFetch.js';
 import { useListParams } from '../hooks/useListParams.js';
 import { projectApi } from '../lib/endpoints.js';
 import { timeAgo } from '../lib/format.js';
-import { Badge, Button, Card, EmptyState, ErrorState, FilterSelect, Icon, PageHeader, Pagination, SearchInput, SkeletonRows } from '../components/ui/index.js';
+import { Badge, Button, Card, EmptyState, ErrorState, FilterSelect, Icon, Pagination, SearchInput, SkeletonRows } from '../components/ui/index.js';
 import { ProjectDialog } from '../components/projects/ProjectDialog.jsx';
 
 const DEFAULTS = { q: '', archived: 'false', sortBy: 'updatedAt', sortOrder: 'desc', page: 1 };
@@ -33,11 +33,25 @@ export function ProjectsPage() {
 
   return (
     <>
-      <PageHeader
-        title="Projects"
-        description={`Everything your team is working on in ${workspace.name}.`}
-        actions={canManage && <Button variant="primary" icon="plus" onClick={() => setCreating(true)}>New project</Button>}
-      />
+      <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-accent-soft text-accent">
+              <Icon name="folder" className="size-5" />
+            </span>
+            <h1 className="text-xl font-semibold tracking-tight text-fg">Projects</h1>
+          </div>
+          <p className="mt-2 text-sm text-muted">
+            Everything your team is working on in {workspace.name}.
+          </p>
+        </div>
+
+        {canManage && (
+          <Button variant="primary" icon="plus" onClick={() => setCreating(true)}>
+            New project
+          </Button>
+        )}
+      </header>
       <Card>
         <div role="search" className="flex flex-wrap items-center gap-2 border-b border-line px-3 py-2.5">
           <div role="tablist" aria-label="Project state" className="flex rounded-md border border-line-strong p-0.5">

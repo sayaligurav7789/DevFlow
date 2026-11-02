@@ -6,6 +6,7 @@ import { useToast } from '../context/ToastContext.jsx';
 import { useWorkspaces } from '../context/WorkspaceContext.jsx';
 import { useWorkspace } from '../layouts/WorkspaceScope.jsx';
 import { workspaceApi } from '../lib/endpoints.js';
+import { Icon } from '../components/ui/index.js';
 
 import {
   Button,
@@ -156,10 +157,20 @@ export function WorkspaceSettingsPage() {
   return (
     <>
       {/* Page heading */}
-      <PageHeader
-        title="Workspace settings"
-        description={`Manage ${workspace.name} and control how your team collaborates.`}
-      />
+      <header className="mb-6">
+        <div className="flex items-center gap-2">
+          <span className="flex size-9 items-center justify-center rounded-xl bg-accent-soft text-accent">
+            <Icon name="settings" className="size-5" />
+          </span>
+          <h1 className="text-xl font-semibold tracking-tight text-fg">
+            Workspace settings
+          </h1>
+        </div>
+
+        <p className="mt-2 text-sm text-muted">
+          Manage {workspace.name} and control how your team collaborates.
+        </p>
+      </header>
 
       {!canManage && (
         <Notice tone="info" className="mb-5">
@@ -181,7 +192,7 @@ export function WorkspaceSettingsPage() {
           <div className="p-6">
             {/* Workspace identity */}
             <div className="mb-6 flex items-center gap-4 rounded-xl border border-line bg-raised p-4">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-xl font-bold text-accent">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-base font-bold text-accent">
                 {workspace.name?.charAt(0)?.toUpperCase() || 'W'}
               </div>
 

@@ -5,7 +5,7 @@ import { useFetch } from '../hooks/useFetch.js';
 import { useListParams } from '../hooks/useListParams.js';
 import { useMembers } from '../hooks/useMembers.js';
 import { projectApi, workspaceApi } from '../lib/endpoints.js';
-import { Button, Card, EmptyState, ErrorState, PageHeader, Pagination, SkeletonRows } from '../components/ui/index.js';
+import { Button, Card, EmptyState, ErrorState, Icon, Pagination, SkeletonRows } from '../components/ui/index.js';
 import { TaskDialog } from '../components/tasks/TaskDialog.jsx';
 import { TaskFilterBar, statusParam } from '../components/tasks/TaskFilters.jsx';
 import { TaskTable } from '../components/tasks/TaskTable.jsx';
@@ -35,11 +35,29 @@ export function MyTasksPage() {
 
   return (
     <>
-      <PageHeader
-        title="My tasks"
-        description={`Tasks assigned to you in ${workspace.name}.`}
-        actions={<Button variant="primary" icon="plus" disabled={!hasProjects} title={hasProjects ? undefined : 'Create a project first'} onClick={() => setDialog({ open: true, task: null })}>New task</Button>}
-      />
+      <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-accent-soft text-accent">
+              <Icon name="tasks" className="size-5" />
+            </span>
+            <h1 className="text-xl font-semibold tracking-tight text-fg">My tasks</h1>
+          </div>
+          <p className="mt-2 text-sm text-muted">
+            Tasks assigned to you in {workspace.name}.
+          </p>
+        </div>
+
+        <Button
+          variant="primary"
+          icon="plus"
+          disabled={!hasProjects}
+          title={hasProjects ? undefined : 'Create a project first'}
+          onClick={() => setDialog({ open: true, task: null })}
+        >
+          New task
+        </Button>
+      </header>
       <Card>
         <TaskFilterBar values={values} set={set} onClear={clear} activeFilterCount={activeFilterCount} members={members} currentUserId={user.id} assigneeMode="me" projects={projects.data?.projects ?? []} />
         <div aria-busy={tasks.loading} className={tasks.refreshing ? 'opacity-60 transition-opacity' : ''}>
