@@ -46,4 +46,4 @@ HEALTHCHECK --interval=15s --timeout=4s --start-period=20s --retries=5 \
 
 # Exec form, no npm wrapper: Node is PID 1's direct child and receives SIGTERM, so the graceful
 # shutdown in src/index.js runs on `docker stop`.
-CMD ["sh", "-c", "node src/db/migrate.js && node src/index.js"]
+CMD ["node", "src/index.js"]
