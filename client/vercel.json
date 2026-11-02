@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://devflow-backend-npmm.onrender.com/api/$1"
+    }
+  ]
+}
