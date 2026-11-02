@@ -97,6 +97,7 @@ function UserMenu({ collapsed }) {
   const { preference, setPreference } = useTheme();
   const navigate = useNavigate();
   const toast = useToast();
+  const [avatarVersion, setAvatarVersion] = useState(Date.now());
 
   const items = [
     { heading: user.email },
@@ -162,7 +163,7 @@ function UserMenu({ collapsed }) {
           <Avatar
             name={user.displayName}
             id={user.id}
-            src="/api/auth/me/photo"
+            src={`/api/auth/me/photo?v=${avatarVersion}`}
             size="md"
           />
 
@@ -203,7 +204,37 @@ function SidebarContent({ collapsed, onNavigate, onToggle, showToggle }) {
             <NavItem to={`${base}/settings`} icon="settings" label="Workspace settings" collapsed={collapsed} onNavigate={onNavigate} />
           </>
         ) : (
-          <NavItem to="/workspaces" icon="folder" label="Workspaces" collapsed={collapsed} onNavigate={onNavigate} />
+          <>
+            <NavItem to="/workspaces" icon="folder" label="Workspaces" collapsed={collapsed} onNavigate={onNavigate} />
+            {!collapsed && (
+              <>
+                <div className="px-2 pb-1 pt-4 text-[10px] font-semibold uppercase tracking-wider text-faint">Your workspace tools</div>
+                {[
+                  ['home', 'Dashboard'],
+                  ['tasks', 'My tasks'],
+                  ['folder', 'Projects'],
+                  ['clock', 'Activity'],
+                  ['users', 'Team'],
+                  ['file', 'Documents'],
+                  ['message', 'Discussions'],
+                  ['link', 'Integrations'],
+                ].map(([icon, label]) => (
+                  <div key={label} title="Create a workspace to unlock this feature" aria-disabled="true" className="flex h-8 cursor-not-allowed items-center gap-2.5 rounded-md px-2 text-[13px] text-faint/70">
+                    <Icon name={icon} className="size-4 shrink-0 opacity-60" />
+                    <span className="truncate">{label}</span>
+                    <span className="ml-auto text-[10px]">LOCKED</span>
+                  </div>
+                ))}
+                <div className="mx-1 mt-3 rounded-lg border border-dashed border-line-strong bg-raised/50 p-3">
+                  <p className="text-[11px] font-medium text-fg">One space for all your work</p>
+                  <p className="mt-1 text-[10.5px] leading-4 text-muted">Create a workspace to organise projects and collaborate with your team.</p>
+                  <Link to="/workspaces?new=1" className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-accent hover:underline">
+                    <Icon name="plus" className="size-3" /> Create workspace
+                  </Link>
+                </div>
+              </>
+            )}
+          </>
         )}
       </nav>
       <div className="space-y-0.5 border-t border-line p-2">
