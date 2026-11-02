@@ -34,7 +34,7 @@ Built using **React, Vite, Node.js, Express.js, PostgreSQL, Redis, Docker, and G
 - [Testing](#-testing)
 - [Available Scripts](#-available-scripts)
 - [Security Considerations](#-security-considerations)
-- [Known Limitations](#-known-limitations)
+- [CI Pipeline](#-Continuous-Integration (CI))
 - [Deployment](#-deployment)
 
 ---
@@ -78,6 +78,7 @@ The platform is designed with modular architecture, secure API communication, wo
 | DevFlow AI | Gemini-powered workspace assistant |
 | Knowledge Base | Document extraction, indexing, embeddings, and semantic retrieval |
 | Docker | Containerized PostgreSQL, Redis, and backend infrastructure |
+| CI Pipeline | GitHub Actions-based automated validation, testing, and build verification. |
 
 ---
 
@@ -1239,6 +1240,44 @@ Important controls include:
 - Back up PostgreSQL before production migrations.
 
 ---
+
+## ⚙️ Continuous Integration (CI)
+
+DevFlow uses **GitHub Actions** to automate code validation and maintain code quality throughout the development process.
+
+### CI Pipeline Features
+
+- **Automated Triggers:** Runs workflows when code is pushed or pull requests are created.
+- **Dependency Installation:** Installs the required frontend and backend dependencies.
+- **Code Validation:** Checks the application for potential errors.
+- **Build Verification:** Validates that the frontend production build completes successfully.
+- **Automated Testing:** Executes configured tests to identify issues early.
+- **Workflow Status:** Reports whether the CI pipeline passes or fails.
+
+---
+
+### CI Workflow
+
+```text
+Developer Push / Pull Request
+          |
+          v
+   GitHub Actions Trigger
+          |
+          v
+  Install Dependencies
+          |
+          v
+    Run Configured Tests
+          |
+          v
+  Validate Frontend Build
+          |
+          v
+    CI Status: Pass / Fail
+```
+
+The CI pipeline helps detect issues early, maintain code quality, and ensure that changes are validated before integration.
 
 ## 🚀 Deployment
 
