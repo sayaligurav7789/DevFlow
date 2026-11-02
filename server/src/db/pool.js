@@ -14,6 +14,7 @@ export const pool = new Pool({
   idleTimeoutMillis: 30_000,
   connectionTimeoutMillis: 5_000,
   application_name: 'devflow-server',
+  ssl: config.database.ssl ? { rejectUnauthorized: false } : false,
 });
 
 pool.on('error', (error) => {

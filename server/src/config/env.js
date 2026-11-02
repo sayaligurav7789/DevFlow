@@ -65,6 +65,7 @@ export const config = Object.freeze({
     name: process.env.DEVFLOW_DB_NAME || 'devflow',
     user: process.env.DEVFLOW_DB_USER || 'devflow',
     password: process.env.DEVFLOW_DB_PASSWORD || '',
+    ssl: parseBoolean(process.env.DEVFLOW_DB_SSL, false),
   }),
   // Set to the number of reverse proxies in front of the API (e.g. 1 behind one load balancer) so
   // req.ip, and therefore the rate limiter, sees the real client address. 0 = trust none.
